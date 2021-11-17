@@ -36,8 +36,7 @@ ROOT = args.root
 
 mask_path = os.path.join(ROOT,'SegmentationClass')
 
-
-files = glob.glob(mask_path+"/*.png")
+files = [os.path.basename(x) for x in glob.glob(mask_path+"/*.png")]
 trainval = open(os.path.join(ROOT,"ImageSets/trainval.txt"), "w")
 test = open(os.path.join(ROOT,"ImageSets/test.txt"), "w")
 val = open(os.path.join(ROOT,"ImageSets/val.txt"),"w")

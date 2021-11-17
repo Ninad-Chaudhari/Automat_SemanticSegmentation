@@ -7,6 +7,7 @@ import random
 import numpy as np
 import mxnet as mx
 from mxnet import cpu
+import mxnet.ndarray as F
 
 __all__ = ['ms_batchify_fn', 'SegmentationDataset']
 

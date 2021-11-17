@@ -1,4 +1,5 @@
 import gluoncv
+from mxnet import gluon
 from mxnet.gluon.data.vision import transforms
 from segdataset import VOCSegmentation
 # List of all classes in the dataset
