@@ -1,1 +1,1 @@
-** Folder for storing original JPEG images**
+**Folder for storing original JPEG images**
