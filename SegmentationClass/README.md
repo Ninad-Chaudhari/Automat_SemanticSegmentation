@@ -1,1 +1,1 @@
-**Folder for storing image masks (1 channel) **
+**Folder for storing image masks (1 channel)**
