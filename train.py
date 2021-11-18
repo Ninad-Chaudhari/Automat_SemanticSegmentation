@@ -8,6 +8,8 @@ import argparse
 from gluoncv.utils.parallel import *
 from gluoncv.loss import MixSoftmaxCrossEntropyLoss
 from segdataset import VOCSegmentation
+import glob
+
 
 
 
@@ -118,7 +120,24 @@ optimizer = gluon.Trainer(model.module.collect_params(), 'sgd',
                           kvstore = kv)
 
 print(model)
-model.module.load_parameters("/content/drive/MyDrive/Automate_SemanticSegmentation/runs/epoch_0030.params", ctx=ctx_list)
+
+def get_latest_checkpoint():
+    files = [os.path.basename(x) for x in glob.glob(args.checkpoint+"/*.params")]
+    if len(files) == 0:
+        return None
+    else :
+        maxep=0
+        for f in files :
+            ep = f.split("_")
+            ep_no = int(ep[1].split(".")[0])
+            if ep_no >= maxep :
+                maxep = ep_no
+        maxep_file = 'epoch_%04d.params' % (maxep)
+        return os.path.join(args.checkpoint ,maxep_file)
+
+load_params = get_latest_checkpoint()
+if load_params is not None:
+    model.module.load_parameters(load_params, ctx=ctx_list)
 
 
 
