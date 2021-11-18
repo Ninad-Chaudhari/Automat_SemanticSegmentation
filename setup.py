@@ -2,8 +2,6 @@ import os
 import argparse
 import glob
 
-PATH_ROOT = os.getcwd()
-PATH_ROOT = PATH_ROOT.replace(" ","")
 
 parser = argparse.ArgumentParser(
     description="Train test validation text file generator")
