@@ -32,5 +32,4 @@ ctx_list = [mx.gpu(0)]
 model = DataParallelModel(model, ctx_list)
 model.module.load_parameters(args.file, ctx=ctx_list)
 model.module.hybridize()
-
-export_block('fcn_resnet102', model.module ,preprocess=None,layout='CHW')
+export_block('fcn_resnet101', model.module ,preprocess=None,layout='CHW')
