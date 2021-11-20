@@ -17,8 +17,8 @@ parser = argparse.ArgumentParser(
     description="Training Script")
 parser.add_argument("-c",
                     "--classes",
-                    default="Hello",
-                    help="List of classes",
+                    default="./",
+                    help="List of classes(.txt file)",
                     type=str)
 
 parser.add_argument("-p",
@@ -31,12 +31,6 @@ parser.add_argument("-b",
                     "--batch",
                     help="Batch Size",
                     default=12,
-                    type=int)
-
-parser.add_argument("-n",
-                    "--n_class",
-                    default=0,
-                    help="Number of classes",
                     type=int)
 
 parser.add_argument("-lr",
@@ -68,11 +62,16 @@ args = parser.parse_args()
 
 
 
-# List of all classes in the dataset
-c=["unlabeled","paved-area","dirt","grass","gravel","water","rocks","pool",
-   "vegetation","roof","wall","window","door","fence","fence-pole","person",
-   "dog","car","bicycle","tree","bald-tree","ar-marker","obstacle","conflicting"]
+def get_classes():
+    f = open(args.classes , "r")
+    classes = f.readlines()
+    classes = [c.rstrip() for c in classes]
+    f.close()
+    return classes
+    
 
+# List of all classes in the dataset
+c = get_classes()
 
 # Transforms for Normalization
 input_transform = transforms.Compose([
@@ -92,7 +91,8 @@ train_data = gluon.data.DataLoader(
 
 
 #Loading Fully Convolutional Network with a pretrained base Resnet101
-model = gluoncv.model_zoo.FCN(nclass=args.n_class, backbone='resnet101', height=256, width=256)
+
+model = gluoncv.model_zoo.FCN(nclass=len(c), backbone='resnet101', height=256, width=256 , ctx=mx.gpu(0))
 model.hybridize()
 
 

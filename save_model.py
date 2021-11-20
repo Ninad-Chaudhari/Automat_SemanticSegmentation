@@ -27,14 +27,10 @@ parser.add_argument("-n",
 
 args = parser.parse_args()
 
-
-
-model = gluoncv.model_zoo.FCN(nclass=args.n_class, backbone='resnet101', height=256, width=256)
-
-
+model = gluoncv.model_zoo.FCN(nclass=args.n_class, backbone='resnet101', height=256, width=256 , ctx=mx.gpu(0))
 ctx_list = [mx.gpu(0)]
 model = DataParallelModel(model, ctx_list)
 model.module.load_parameters(args.file, ctx=ctx_list)
 model.module.hybridize()
-#model.module.export("fcn_resnet101" , epoch=args.epoch)
-export_block('fcn_resnet101', model.module)
+
+export_block('fcn_resnet102', model.module ,preprocess=None,layout='CHW')
